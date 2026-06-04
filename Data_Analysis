@@ -1,0 +1,258 @@
+# Titanic Data Cleaning and Analysis using Pandas
+
+## Project Overview
+
+This project performs data cleaning and exploratory data analysis (EDA) on the Titanic dataset using Python and Pandas.
+
+The objective is to clean the dataset, handle missing values, remove unnecessary columns, calculate survival statistics, analyze passenger demographics, and identify relationships between passenger class and survival.
+
+---
+
+## Dataset
+
+**File Used:** `titanic_dataset.csv`
+
+The dataset contains passenger information such as:
+
+- PassengerId
+- Survived
+- Pclass
+- Name
+- Sex
+- Age
+- SibSp
+- Ticket
+- Cabin
+- Embarked
+
+---
+
+## Libraries Used
+
+```python
+import numpy as np
+import pandas as pd
+```
+
+---
+
+## Step 1: Load the Dataset
+
+```python
+data = pd.read_csv("titanic_dataset.csv")
+data.head()
+```
+
+---
+
+## Step 2: Count Total Male and Female Passengers
+
+```python
+head_count = data.groupby(["Sex"])["PassengerId"].count()
+
+print("Total Number of Males and Females are:")
+print(head_count)
+```
+
+---
+
+## Step 3: Identify Missing Values
+
+```python
+data.isnull().sum()
+```
+
+---
+
+## Step 4: Handle Missing Values
+
+Used the Forward Fill (`ffill`) method to replace missing values.
+
+```python
+new_data = data.ffill()
+```
+
+Replace remaining Cabin null values.
+
+```python
+new_data.fillna({
+    'Cabin': 'C85'
+}, inplace=True)
+```
+
+Remove any remaining null values.
+
+```python
+new_data.dropna(inplace=True)
+```
+
+Verify the dataset.
+
+```python
+new_data.isnull().sum()
+```
+
+---
+
+## Step 5: Remove Unwanted Columns
+
+The following columns were removed because they were not required for the analysis:
+
+- Embarked
+- Cabin
+- SibSp
+- Ticket
+
+```python
+new_data.drop(
+    ['Embarked', 'Cabin', 'SibSp', 'Ticket'],
+    axis=1,
+    inplace=True
+)
+```
+
+---
+
+## Step 6: Calculate Overall Survival Rate
+
+```python
+survival_rate = new_data["Survived"].mean()
+
+print("Overall Survival Rate:", survival_rate)
+```
+
+Formula:
+
+```python
+Survival Rate = Total Survivors / Total Passengers
+```
+
+---
+
+## Step 7: Cross-Validate Male and Female Passenger Data
+
+Calculate total passengers after cleaning.
+
+```python
+total_count = new_data["PassengerId"].count()
+
+print("Total Passengers after removing null values:")
+print(total_count)
+```
+
+Count male and female passengers.
+
+```python
+head_count = new_data.groupby(["Sex"])["PassengerId"].count()
+
+print("Total Number of Males and Females:")
+print(head_count)
+```
+
+Cross-validation check:
+
+```python
+head_count.sum() == total_count
+```
+
+Expected Result:
+
+```python
+True
+```
+
+---
+
+## Step 8: Correlation Between Passenger Class and Survival
+
+```python
+correlation = new_data["Pclass"].corr(new_data["Survived"])
+
+print(
+    "Correlation between Passenger Class and Survival:",
+    correlation
+)
+```
+
+### Interpretation
+
+- Positive Correlation → Higher passenger class number increases survival.
+- Negative Correlation → Lower passenger class number (1st Class) has better survival chances.
+- Near Zero → No strong relationship.
+
+---
+
+## Key Findings
+
+### Survival Analysis
+
+- Calculated the overall survival rate of passengers.
+- Analyzed passenger distribution by gender.
+
+### Data Cleaning
+
+- Handled missing values using Forward Fill.
+- Removed unwanted columns.
+- Verified the dataset contained no null values after cleaning.
+
+### Passenger Demographics
+
+- Counted male and female passengers.
+- Cross-validated passenger counts.
+
+### Correlation Analysis
+
+- Examined the relationship between Passenger Class (`Pclass`) and Survival (`Survived`).
+
+---
+
+## Project Structure
+
+```
+Titanic-Data-Analysis/
+│
+├── titanic_dataset.csv
+├── Titanic_Data_Analysis.ipynb
+├── README.md
+└── requirements.txt
+```
+
+---
+
+## Requirements
+
+Create a `requirements.txt` file:
+
+```txt
+pandas
+numpy
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Skills Demonstrated
+
+- Python
+- Pandas
+- Data Cleaning
+- Missing Value Handling
+- Exploratory Data Analysis (EDA)
+- Data Aggregation
+- Correlation Analysis
+- Data Validation
+
+---
+
+## Author
+
+**Ramesh Pragada**
+
+Data Analyst | Python | SQL | Machine Learning Enthusiast
+
+Connect with me on LinkedIn and GitHub.
