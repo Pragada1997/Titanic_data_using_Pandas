@@ -1,4 +1,5 @@
 # Titanic Data Cleaning and Analysis using Pandas
+<img width="1024" height="559" alt="image" src="https://github.com/user-attachments/assets/41f2469c-dc8c-4c04-8721-c37ec3b58d78" />
 
 ## Project Overview
 
